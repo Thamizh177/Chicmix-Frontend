@@ -10,7 +10,7 @@ function marveloversized (){
         <>
         <Header/>
         <Marveloversized/>
-        <Footer/>
+        
         </>
     )
 }

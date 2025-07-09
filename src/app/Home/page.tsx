@@ -16,7 +16,7 @@ const HomePage = () => {
             <MenCategories/>
             <WomensCategories/>
             <Popular/>
-            <Footer/>
+            
             {/* Other homepage components */}
         </>
     );

@@ -9,7 +9,7 @@ function shoppingwishlist () {
         <>
             <Header/>
             <Wishlistpage/>
-            <Footer/>
+            
         </>
     )
 }

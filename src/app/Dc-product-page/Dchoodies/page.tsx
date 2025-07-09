@@ -10,7 +10,7 @@ function Dchoodie (){
         <>
         <Header/>
         <Dchoodies/>
-        <Footer/>
+        
         </>
     )
 }

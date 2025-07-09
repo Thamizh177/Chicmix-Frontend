@@ -10,7 +10,7 @@ function Marvelfullsleeve (){
         <>
         <Header/>
         <Marvelfull/>
-        <Footer/>
+        
         </>
     )
 }

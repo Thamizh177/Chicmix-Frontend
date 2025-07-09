@@ -10,7 +10,7 @@ function marvelhalfsleeve (){
         <>
         <Header/>
         <Marvelhalfsleeve/>
-        <Footer/>
+        
         </>
     )
 }

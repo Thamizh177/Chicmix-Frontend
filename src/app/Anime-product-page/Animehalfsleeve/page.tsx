@@ -10,7 +10,7 @@ function AnimeHalfsleeve (){
         <>
         <Header/>
         <Animehalf/>
-        <Footer/>
+        
         </>
     )
 }

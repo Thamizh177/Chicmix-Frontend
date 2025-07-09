@@ -10,7 +10,7 @@ function Dchalfsleeve (){
         <>
         <Header/>
         <Dchalf/>
-        <Footer/>
+        
         </>
     )
 }

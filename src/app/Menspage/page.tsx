@@ -9,7 +9,7 @@ function Menspage() {
         <>
             <Header/>
             <MenCategories/>
-            <Footer/>
+            
         </>
     )
 }

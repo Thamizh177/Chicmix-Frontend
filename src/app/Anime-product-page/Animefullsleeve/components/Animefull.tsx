@@ -13,20 +13,29 @@ const Animefullsleeve = () => {
   const [products, setProducts] = useState<any[]>([]);
   
 
-  const buildParams = () => {
-    const params: any = { sub_catagory: 13 };
-    if (color) params.colour_name = color;
-    if (size) params.size_name = size;
-    if (availability) {
-      params.stock_status = availability === "In stock" ? "in_stock" : "out_of_stock";
-    }
-    if (priceMax !== undefined) {
-      params.max_price = priceMax;
-    }
-    return params;
-  };
+const buildParams = () => {
+  const params: any = { sub_catagory: 13 };
+  if (color) params.colour_name = color;
+  if (size) params.size_name = size;
+  if (availability) {
+    params.stock_status = availability === "in_stock" ? "in_stock" : "out_of_stock";
+  }
+
+  // ✅ Use proper format for RangeFilter
+  if (priceMax !== undefined) {
+    params.price = `0,${priceMax}`; // Sends as ?price=0,4900
+  }
+
+  return params;
+};
+
 
 useEffect(() => {
+  console.log("⏳ Filter values changed:");
+  console.log("Color:", color);
+  console.log("Size:", size);
+  console.log("Availability:", availability);
+  console.log("Max Price:", priceMax);
   const load = async () => {
     try {
       const filterParams = buildParams();
@@ -36,10 +45,10 @@ useEffect(() => {
         fetchProducts(filterParams),
         fetchProductImages(filterParams),
       ]);
-      console.log("Raw products:", rawProducts);
-      console.log("Raw images:", rawImages);
-      console.log(await fetchProducts({ sub_catagory: 13 }));
-      console.log(await fetchProducts({ sub_catagory: 13, colour_name: "Black" }));
+      // console.log("Raw products:", rawProducts);
+      // console.log("Raw images:", rawImages);
+      // console.log(await fetchProducts({ sub_catagory: 13 }));
+      // console.log(await fetchProducts({ sub_catagory: 13, colour_name: "Black" }));
 
       const imageArray: any[] = Array.isArray(rawImages) ? rawImages : [];
 
@@ -57,7 +66,7 @@ useEffect(() => {
               label: s.size_name
             })) || [];
 
-            console.log("👉 Size Options for product", p.product_name, sizeOptions); // 👈 Logs here
+            // console.log("👉 Size Options for product", p.product_name, sizeOptions); // 👈 Logs here
 
             return {
               product_id: p.product,

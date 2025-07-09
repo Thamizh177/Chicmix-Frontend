@@ -9,7 +9,7 @@ function Marvelpage (){
         <>
         <Header/>
         <Marvel/>
-        <Footer/>
+        
         </>
     )
 }

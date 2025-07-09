@@ -9,7 +9,7 @@ function Animepage (){
         <>
         <Header/>
         <Anime/>
-        <Footer/>
+        
         </>
     )
 }

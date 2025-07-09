@@ -9,7 +9,7 @@ function dcpage (){
         <>
         <Header/>
         <DcComics/>
-        <Footer/>
+        
         </>
     )
 }

@@ -9,7 +9,7 @@ function shoppingcart () {
         <>
             <Header/>
             <Cartpage/>
-            <Footer/>
+            
         </>
     )
 }

@@ -49,6 +49,7 @@ const ParentComponent: React.FC<ParentComponentProps> = ({
   }, []);
 
   const handleSelect = (type: "color" | "size" | "availability", value: string) => {
+    console.log(`Selected ${type}:`, value);
     const normalizedValue = value === "Show All" ? null : value;
 
     if (type === "color") onColorSelect(normalizedValue);

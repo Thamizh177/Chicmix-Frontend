@@ -8,7 +8,7 @@ function womenspage (){
         <>
         <SubHeader title="Women Catagories"/>
         <WomensCategories/>
-        <Footer/>
+        
         </>
     )
 }

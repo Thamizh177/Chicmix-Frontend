@@ -10,7 +10,7 @@ function Animeoversized (){
         <>
         <Header/>
         <Animeover/>
-        <Footer/>
+        
         </>
     )
 }

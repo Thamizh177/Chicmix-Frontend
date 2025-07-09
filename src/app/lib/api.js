@@ -23,63 +23,63 @@ export default api;
 // );
 
 // === Auto-refresh token logic ===
-let isRefreshing = false;
-let failedQueue = [];
+// let isRefreshing = false;
+// let failedQueue = [];
 
-const processQueue = (error, token = null) => {
-  failedQueue.forEach(({ resolve, reject }) => {
-    if (error) reject(error);
-    else resolve(token);
-  });
-  failedQueue = [];
-};
+// const processQueue = (error, token = null) => {
+//   failedQueue.forEach(({ resolve, reject }) => {
+//     if (error) reject(error);
+//     else resolve(token);
+//   });
+//   failedQueue = [];
+// };
 
-api.interceptors.response.use(
-  (response) => response,
-  async (error) => {
-    const originalRequest = error.config;
+// api.interceptors.response.use(
+//   (response) => response,
+//   async (error) => {
+//     const originalRequest = error.config;
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
+//     if (error.response?.status === 401 && !originalRequest._retry) {
+//       originalRequest._retry = true;
 
-      if (isRefreshing) {
-        return new Promise((resolve, reject) => {
-          failedQueue.push({ resolve, reject });
-        }).then((token) => {
-          originalRequest.headers.Authorization = `Bearer ${token}`;
-          return api(originalRequest);
-        });
-      }
+//       if (isRefreshing) {
+//         return new Promise((resolve, reject) => {
+//           failedQueue.push({ resolve, reject });
+//         }).then((token) => {
+//           originalRequest.headers.Authorization = `Bearer ${token}`;
+//           return api(originalRequest);
+//         });
+//       }
 
-      isRefreshing = true;
-      const refreshToken = localStorage.getItem('refresh_token');
+//       isRefreshing = true;
+//       const refreshToken = localStorage.getItem('refresh_token');
 
-      if (!refreshToken) return Promise.reject(error);
+//       if (!refreshToken) return Promise.reject(error);
 
-      try {
-        const response = await axios.post(`${BASE_URL}refresh/token/`, {
-          refresh: refreshToken,
-        });
+//       try {
+//         const response = await axios.post(`${BASE_URL}refresh/token/`, {
+//           refresh: refreshToken,
+//         });
 
-        const newAccess = response.data.access;
-        localStorage.setItem('access_token', newAccess);
-        api.defaults.headers.common.Authorization = `Bearer ${newAccess}`;
-        originalRequest.headers.Authorization = `Bearer ${newAccess}`;
-        processQueue(null, newAccess);
-        return api(originalRequest);
-      } catch (err) {
-        processQueue(err, null);
-        localStorage.removeItem('access_token');
-        localStorage.removeItem('refresh_token');
-        return Promise.reject(err);
-      } finally {
-        isRefreshing = false;
-      }
-    }
+//         const newAccess = response.data.access;
+//         localStorage.setItem('access_token', newAccess);
+//         api.defaults.headers.common.Authorization = `Bearer ${newAccess}`;
+//         originalRequest.headers.Authorization = `Bearer ${newAccess}`;
+//         processQueue(null, newAccess);
+//         return api(originalRequest);
+//       } catch (err) {
+//         processQueue(err, null);
+//         localStorage.removeItem('access_token');
+//         localStorage.removeItem('refresh_token');
+//         return Promise.reject(err);
+//       } finally {
+//         isRefreshing = false;
+//       }
+//     }
 
-    return Promise.reject(error);
-  }
-);
+//     return Promise.reject(error);
+//   }
+// );
 
 export const fetchSubcategories = async (filters = {}) => {
   try {

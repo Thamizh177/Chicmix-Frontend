@@ -13,6 +13,11 @@ import {
   uploadProfileImage
 } from "@/app/lib/api";
 import Cookies from "js-cookie";
+import ToastMessage from "./Errordisplay";
+
+
+
+
 
 interface ProfileModalProps {
   isOpen: boolean;
@@ -67,7 +72,6 @@ const [formData, setFormData] = useState<{
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const messageRef = useRef<HTMLDivElement | null>(null);
   let didUpdate = false;
 
 
@@ -80,12 +84,6 @@ const [formData, setFormData] = useState<{
       alert("Session expired. Please log in again.");
       return;
     }
-
-    useEffect(() => {
-      if (successMessage || errorMessage) {
-        messageRef.current?.scrollIntoView({ behavior: "smooth" });
-      }
-    }, [successMessage, errorMessage]);
 
 
   useEffect(() => {
@@ -317,17 +315,23 @@ const handleSubmit = async (e: React.FormEvent) => {
         {/* Profile Form */}
         {editMode && (
           <form onSubmit={handleSubmit} className="w-full md:w-2/3 p-4 sm:p-6 border-t md:border-l md:border-t-0 border-gray-200">
-            <div ref={messageRef}>
+            <div >
               {successMessage && (
-                <div className="bg-green-100 text-green-800 p-2 mb-4 rounded text-sm border border-green-300 transition-all duration-300">
-                  ✅ {successMessage}
-                </div>
+                <ToastMessage
+                  message={successMessage}
+                  type="success"
+                  onClose={() => setSuccessMessage(null)}
+                />
               )}
+
               {errorMessage && (
-                <div className="bg-red-100 text-red-800 p-2 mb-4 rounded text-sm border border-red-300 transition-all duration-300">
-                  ❌ {errorMessage}
-                </div>
+                <ToastMessage
+                  message={errorMessage}
+                  type="error"
+                  onClose={() => setErrorMessage(null)}
+                />
               )}
+
             </div>
 
             <h3 className="text-xl font-semibold mb-4">Profile Settings</h3>

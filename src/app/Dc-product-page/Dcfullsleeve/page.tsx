@@ -10,7 +10,7 @@ function Dcfullsleeve (){
         <>
         <Header/>
         <Dcfull/>
-        <Footer/>
+        
         </>
     )
 }

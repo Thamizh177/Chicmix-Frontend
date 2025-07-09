@@ -10,7 +10,7 @@ function Customize (){
         <>
         <Header/>
         <TshirtModel/>
-        <Footer/>
+        
         </>
     )
 }

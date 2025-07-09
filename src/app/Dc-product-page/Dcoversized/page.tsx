@@ -10,7 +10,7 @@ function Dcoversizedtshirt (){
         <>
         <Header/>
         <Dcoversized/>
-        <Footer/>
+        
         </>
     )
 }

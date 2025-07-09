@@ -10,7 +10,7 @@ function marvelhoodies (){
         <>
         <Header/>
         <MarvelHoodies/>
-        <Footer/>
+        
         </>
     )
 }

@@ -10,7 +10,7 @@ function Animefull (){
         <>
         <Header/>
         <ProductDetails/>
-        <Footer/>
+        
         </>
     )
 }
