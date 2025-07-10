@@ -1,11 +1,17 @@
 #!/bin/bash
 
-# Install Node.js and npm if not already installed
+# Ensure script stops on any error
+set -e
+
+# Navigate to frontend code directory
+cd /home/ec2-user/frontend
+
+# Install Node.js (LTS version)
 curl -fsSL https://rpm.nodesource.com/setup_20.x | sudo bash -
 sudo yum install -y nodejs
 
-# Move to frontend app directory
-cd /home/ec2-user/frontend
-
-# Install dependencies
+# Install frontend dependencies
 npm install
+
+# Build the production-ready frontend
+npm run build
