@@ -1,12 +1,16 @@
 #!/bin/bash
 set -e
 
-# Ensure Node.js is available in PATH
+# Make sure nodejs is in path if installed manually
 export PATH=/usr/local/nodejs/bin:$PATH
 
-# Go to frontend code directory
 cd /home/ec2-user/frontend
 
-# Install and build
+# Fix directory permissions so ec2-user can install packages
+sudo chown -R ec2-user:ec2-user .
+
+# Install dependencies
 npm install
+
+# Build the frontend
 npm run build
