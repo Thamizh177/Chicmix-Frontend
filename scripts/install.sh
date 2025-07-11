@@ -17,5 +17,5 @@ sudo chown -R ec2-user:ec2-user /home/ec2-user/frontend
 echo "Installing frontend dependencies..."
 cd /home/ec2-user/frontend
 
-# Run npm install using ec2-user
-sudo -u ec2-user $NPM install
+# Run npm install with correct node path in env
+sudo -u ec2-user env PATH="/usr/local/nodejs/bin:$PATH" $NPM install
