@@ -15,4 +15,4 @@ echo "Installing frontend dependencies..."
 cd /home/ec2-user/frontend
 
 # Run npm install as ec2-user
-sudo -u ec2-user npm install
+sudo -u ec2-user /usr/local/nodejs/bin/npm install
