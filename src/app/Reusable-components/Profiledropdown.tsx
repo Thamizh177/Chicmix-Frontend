@@ -274,217 +274,215 @@ export default function ProfileDropdownWithLogin() {
     }
   };
 
-return (
-  <div className="relative inline-block w-full max-w-[280px] sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl" ref={dropdownRef}>
-    <button onClick={() => setDropdownOpen(!dropdownOpen)}>
-      <IoMdContact className="text-3xl sm:text-4xl lg:text-5xl mt-4 lg:mt-7 mb-2" />
-    </button>
+  return (
+    <div className="relative inline-block w-full max-w-[280px] sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl" ref={dropdownRef}>
+      <button onClick={() => setDropdownOpen(!dropdownOpen)}>
+        <IoMdContact className="text-3xl sm:text-4xl lg:text-5xl mt-4 lg:mt-7 mb-2" />
+      </button>
 
-    {dropdownOpen && (
-      <div className="absolute right-0 mt-2 z-50 flex flex-col items-end shadow-xl">
-        <div className="w-5 h-5 bg-white rotate-45 transform -mb-3 mr-3"></div>
-        <div className="w-40 bg-white rounded-md">
-          <ul className="py-2 text-gray-700">
-            {!isLoggedIn ? (
-              <li>
-                <button
-                  onClick={() => {
-                    openPopup();
-                    setDropdownOpen(false);
-                  }}
-                  className="block w-full text-center font-bold px-4 py-2 hover:text-red-600"
-                >
-                  Login
-                </button>
-              </li>
-            ) : (
-              <>
+      {dropdownOpen && (
+        <div className="absolute right-0 mt-2 z-50 flex flex-col items-end shadow-xl">
+          <div className="w-5 h-5 bg-white rotate-45 transform -mb-3 mr-3"></div>
+          <div className="w-40 bg-white rounded-md">
+            <ul className="py-2 text-gray-700">
+              {!isLoggedIn ? (
                 <li>
                   <button
-                    onClick={() => setProfileOpen(true)}
+                    onClick={() => {
+                      openPopup();
+                      setDropdownOpen(false);
+                    }}
                     className="block w-full text-center font-bold px-4 py-2 hover:text-red-600"
                   >
-                    Profile
+                    Login
                   </button>
                 </li>
-                <li>
-                  <button
-                    onClick={() => setShowLogoutConfirm(true)}
-                    className="block w-full text-center font-bold px-4 py-2 hover:text-red-600"
-                  >
-                    Logout
-                  </button>
-                </li>
-
-                <ProfileModal
-                  isOpen={isProfileOpen}
-                  onClose={() => setProfileOpen(false)}
-                  onSubmit={(data) => {
-                    console.log("Profile form submitted:", data);
-                    setProfileOpen(false);
-                  }}
-                />
-              </>
-            )}
-          </ul>
-        </div>
-      </div>
-    )}
-
-    {showLogoutConfirm && (
-      <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50 px-4">
-        <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-xs sm:max-w-sm text-center relative">
-          <h2 className="text-lg font-bold text-gray-800 mb-4">Confirm Logout</h2>
-          <p className="text-gray-600 mb-6">Are you sure you want to logout?</p>
-          <div className="flex justify-center gap-4">
-            <button
-              onClick={() => setShowLogoutConfirm(false)}
-              className="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 transition"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={() => {
-                setShowLogoutConfirm(false);
-                handleLogout();
-              }}
-              className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition"
-            >
-              Yes, Logout
-            </button>
-          </div>
-        </div>
-      </div>
-    )}
-
-    {isOpen && (
-      <div className="fixed inset-0 backdrop-blur-sm bg-black/30 flex items-center justify-center z-50 px-4">
-        <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-sm text-center relative">
-          <button
-            onClick={closePopup}
-            className="absolute top-2 right-3 text-gray-600 hover:text-red-600 text-2xl font-bold"
-          >
-            &times;
-          </button>
-
-          <h2 className="text-xl font-bold text-gray-800 mb-4">Login</h2>
-
-          {statusMessage && (
-            <div
-              className={`mb-4 text-sm font-medium px-4 py-2 rounded ${
-                statusType === "success"
-                  ? "bg-green-100 text-green-800"
-                  : statusType === "error"
-                  ? "bg-red-100 text-red-800"
-                  : "bg-blue-100 text-blue-800"
-              }`}
-            >
-              {statusMessage}
-            </div>
-          )}
-
-          {step === "verified" ? (
-            <h1 className={`${honk.className} text-3xl sm:text-4xl`}>Welcome to Chicmix!</h1>
-          ) : (
-            <form className="w-full">
-              <div className="mb-4">
-                <PhoneInput
-                  country={"in"}
-                  value={phone}
-                  onChange={setPhone}
-                  inputProps={{
-                    name: "phone",
-                    required: true,
-                    autoFocus: true,
-                  }}
-                  containerStyle={{
-                    width: "100%",
-                    border: "1px solid #000000",
-                    borderRadius: "8px",
-                    padding: "2px",
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                  inputStyle={{
-                    width: "100%",
-                    height: "36px",
-                    border: "none",
-                    outline: "none",
-                    boxShadow: "none",
-                  }}
-                  buttonStyle={{
-                    border: "none",
-                    background: "transparent",
-                    marginRight: "8px",
-                  }}
-                />
-              </div>
-
-              {otpRequested && (
+              ) : (
                 <>
-                  <div className="mb-2">
-                    <input
-                      type="text"
-                      value={otp}
-                      onChange={(e) => setOtp(e.target.value)}
-                      inputMode="numeric"
-                      pattern="[0-9]*"
-                      placeholder="Enter OTP"
-                      className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-                      disabled={lockoutTimer > 0}
-                    />
-                  </div>
-                  <p className="text-sm text-gray-500 mb-2">
-                    {lockoutTimer > 0
-                      ? `Too many failed attempts. Try again in ${lockoutTimer} seconds.`
-                      : timer > 0
-                      ? `You can request OTP again in ${timer} seconds.`
-                      : "You can now request OTP again."}
-                  </p>
+                  <li>
+                    <button
+                      onClick={() => setProfileOpen(true)}
+                      className="block w-full text-center font-bold px-4 py-2 hover:text-red-600"
+                    >
+                      Profile
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={() => setShowLogoutConfirm(true)}
+                      className="block w-full text-center font-bold px-4 py-2 hover:text-red-600"
+                    >
+                      Logout
+                    </button>
+                  </li>
+
+                  <ProfileModal
+                    isOpen={isProfileOpen}
+                    onClose={() => setProfileOpen(false)}
+                    onSubmit={(data) => {
+                      console.log("Profile form submitted:", data);
+                      setProfileOpen(false);
+                    }}
+                  />
                 </>
               )}
+            </ul>
+          </div>
+        </div>
+      )}
 
-              <div className="flex flex-col sm:flex-row justify-center gap-3 mb-4">
-                <button
-                  type="button"
-                  onClick={handleRequestOTP}
-                  className={`px-4 py-2 rounded-lg text-white transition ${
-                    (otpRequested && timer > 0) ? "bg-gray-400 cursor-not-allowed" : "bg-gray-600 hover:bg-purple-600"
+      {showLogoutConfirm && (
+        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50 px-4">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-xs sm:max-w-sm text-center relative">
+            <h2 className="text-lg font-bold text-gray-800 mb-4">Confirm Logout</h2>
+            <p className="text-gray-600 mb-6">Are you sure you want to logout?</p>
+            <div className="flex justify-center gap-4">
+              <button
+                onClick={() => setShowLogoutConfirm(false)}
+                className="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 transition"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  setShowLogoutConfirm(false);
+                  handleLogout();
+                }}
+                className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition"
+              >
+                Yes, Logout
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {isOpen && (
+        <div className="fixed inset-0 backdrop-blur-sm bg-black/30 flex items-center justify-center z-50 px-4">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-sm text-center relative">
+            <button
+              onClick={closePopup}
+              className="absolute top-2 right-3 text-gray-600 hover:text-red-600 text-2xl font-bold"
+            >
+              &times;
+            </button>
+
+            <h2 className="text-xl font-bold text-gray-800 mb-4">Login</h2>
+
+            {statusMessage && (
+              <div
+                className={`mb-4 text-sm font-medium px-4 py-2 rounded ${statusType === "success"
+                    ? "bg-green-100 text-green-800"
+                    : statusType === "error"
+                      ? "bg-red-100 text-red-800"
+                      : "bg-blue-100 text-blue-800"
                   }`}
-                  disabled={(otpRequested && timer > 0) || lockoutTimer > 0}
-                >
-                  {otpRequested ? "Resend OTP" : "Get OTP"}
-                </button>
+              >
+                {statusMessage}
+              </div>
+            )}
+
+            {step === "verified" ? (
+              <h1 className={`${honk.className} text-3xl sm:text-4xl`}>Welcome to Chicmix!</h1>
+            ) : (
+              <form className="w-full">
+                <div className="mb-4">
+                  <PhoneInput
+                    country={"in"}
+                    value={phone}
+                    onChange={setPhone}
+                    inputProps={{
+                      name: "phone",
+                      required: true,
+                      autoFocus: true,
+                    }}
+                    containerStyle={{
+                      width: "100%",
+                      border: "1px solid #000000",
+                      borderRadius: "8px",
+                      padding: "2px",
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                    inputStyle={{
+                      width: "100%",
+                      height: "36px",
+                      border: "none",
+                      outline: "none",
+                      boxShadow: "none",
+                    }}
+                    buttonStyle={{
+                      border: "none",
+                      background: "transparent",
+                      marginRight: "8px",
+                    }}
+                  />
+                </div>
 
                 {otpRequested && (
+                  <>
+                    <div className="mb-2">
+                      <input
+                        type="text"
+                        value={otp}
+                        onChange={(e) => setOtp(e.target.value)}
+                        inputMode="numeric"
+                        pattern="[0-9]*"
+                        placeholder="Enter OTP"
+                        className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                        disabled={lockoutTimer > 0}
+                      />
+                    </div>
+                    <p className="text-sm text-gray-500 mb-2">
+                      {lockoutTimer > 0
+                        ? `Too many failed attempts. Try again in ${lockoutTimer} seconds.`
+                        : timer > 0
+                          ? `You can request OTP again in ${timer} seconds.`
+                          : "You can now request OTP again."}
+                    </p>
+                  </>
+                )}
+
+                <div className="flex flex-col sm:flex-row justify-center gap-3 mb-4">
                   <button
                     type="button"
-                    onClick={handleVerifyOTP}
-                    className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-purple-600 transition"
-                    disabled={lockoutTimer > 0}
+                    onClick={handleRequestOTP}
+                    className={`px-4 py-2 rounded-lg text-white transition ${(otpRequested && timer > 0) ? "bg-gray-400 cursor-not-allowed" : "bg-gray-600 hover:bg-purple-600"
+                      }`}
+                    disabled={(otpRequested && timer > 0) || lockoutTimer > 0}
                   >
-                    {step === "verifying" ? "Verifying..." : "Verify OTP"}
+                    {otpRequested ? "Resend OTP" : "Get OTP"}
                   </button>
-                )}
-              </div>
-            </form>
-          )}
+
+                  {otpRequested && (
+                    <button
+                      type="button"
+                      onClick={handleVerifyOTP}
+                      className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-purple-600 transition"
+                      disabled={lockoutTimer > 0}
+                    >
+                      {step === "verifying" ? "Verifying..." : "Verify OTP"}
+                    </button>
+                  )}
+                </div>
+              </form>
+            )}
+          </div>
         </div>
-      </div>
-    )}
+      )}
 
-    {statusMessage && statusType === "success" && !isOpen && (
-      <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50">
-        <div className="bg-green-100 border border-green-400 text-green-700 px-6 py-3 rounded shadow-lg">
-          {statusMessage}
+      {statusMessage && statusType === "success" && !isOpen && (
+        <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50">
+          <div className="bg-green-100 border border-green-400 text-green-700 px-6 py-3 rounded shadow-lg">
+            {statusMessage}
+          </div>
         </div>
-      </div>
-    )}
-  </div>
-);
+      )}
+    </div>
+  );
 
 
-  
+
 
 
 }

@@ -10,7 +10,6 @@ function Animefull (){
         <>
         <Header/>
         <Animefullsleeve/>
-        
         </>
     )
 }

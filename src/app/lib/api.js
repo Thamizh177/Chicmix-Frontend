@@ -1,14 +1,15 @@
 import axios from 'axios';
 
 // ✅ General base URL
-const BASE_URL = 'http://127.0.0.1:8000/api/';
+const BASE_URL = 'http://192.168.0.153:8000/api/';
 
 // Create Axios instance
 const api = axios.create({
   baseURL: BASE_URL,
+  withCredentials: true
 
 });
-export default api; 
+export default api;
 
 // // Attach access token to all requests
 // api.interceptors.request.use(
@@ -109,7 +110,7 @@ export const fetchPopularCategories = async () => {
     const response = await api.get('popular-categories/');
     console.log(response.data)
     return response.data;
-    
+
   } catch (error) {
     console.error("Error fetching popular categories:", error);
     return [];
@@ -176,7 +177,7 @@ export const fetchProductImages = async (filters = {}) => {
     const response = await api.get('public-product-images/', {
       params: filters,
     });
-    
+
     return response.data;
   } catch (error) {
     console.error('Error fetching product images:', error);
@@ -308,7 +309,7 @@ export const logoutUser = async (refreshToken, accessToken) => {
  * 
  * @returns {Promise<Object>} - Response data from API
  */
-export const fetchGender = async() => {
+export const fetchGender = async () => {
   try {
     const response = await api.get("/public/gender/");
     return response.data;
@@ -324,12 +325,12 @@ export const fetchGender = async() => {
  * 
  * @returns {Promise<Object>} - Response data from API
  */
-export const fetchAddressType = async() => {
+export const fetchAddressType = async () => {
   try {
     const response = await api.get("/public/addresstypes/");
     console.log(response.data)
     return response.data;
-    
+
   } catch (error) {
     console.error("Error fetching Address type:", error);
     throw error;
@@ -446,19 +447,19 @@ export const fetchUserProfile = async (token) => {
  * @returns {Promise<Object>} - The created address data
  */
 
-export const addtocart = async (cartdata,token) => {
-  try{
-  const response = await api.post("cart/add/",cartdata,{
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return response.data;
-} catch (error){
-  console.error("Error adding to cart:",error);
-  throw error.response?.data || error;
+export const addtocart = async (cartdata, token) => {
+  try {
+    const response = await api.post("cart/add/", cartdata, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error adding to cart:", error);
+    throw error.response?.data || error;
 
-}
+  }
 };
 
 /**
@@ -469,16 +470,16 @@ export const addtocart = async (cartdata,token) => {
  * @returns {Promise<Object>} - returns an success meassage once product removed
  */
 
-export const removeproductfromcart = async(producttoremove,token) => {
-  try{
-    const response = await api.post("cart/remove/",producttoremove,{
+export const removeproductfromcart = async (producttoremove, token) => {
+  try {
+    const response = await api.post("cart/remove/", producttoremove, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
     return response.data;
-  } catch (error){
-    console.error("Error removing the product from the cart:",error);
+  } catch (error) {
+    console.error("Error removing the product from the cart:", error);
     throw error.response?.data || error;
   }
 }
@@ -502,24 +503,24 @@ export const fetchcart = async (cartitems = {}, token) => {
 };
 
 
-export const addtowishlist = async(wishlistdata,token) =>{
-  try{
-    const response = await api.post("wishlist/add/",wishlistdata,{
+export const addtowishlist = async (wishlistdata, token) => {
+  try {
+    const response = await api.post("wishlist/add/", wishlistdata, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-    return response.data;  
-  } catch (error){
-    console.error("Error adding to the wishlist:",error);
+    return response.data;
+  } catch (error) {
+    console.error("Error adding to the wishlist:", error);
     throw error.response?.data || error;
   }
 };
 
 
-export const fetchwishlistdata = async (wishlistitems = {},token) => {
-  try{
-    const response = await api.get("wishlist/",{
+export const fetchwishlistdata = async (wishlistitems = {}, token) => {
+  try {
+    const response = await api.get("wishlist/", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -527,25 +528,25 @@ export const fetchwishlistdata = async (wishlistitems = {},token) => {
     });
     console.log("Wishlist API response:", response.data);
     return response.data;
-  } catch (error){
+  } catch (error) {
     console.error("Error fetching wishlist data:", error);
     throw error.response?.data || error;
   }
 }
 
 
-export const removeproductsfromwishlist = async (product,token) =>{
-  try{
-    const response = await api.delete("wishlist/remove/",{
+export const removeproductsfromwishlist = async (product, token) => {
+  try {
+    const response = await api.delete("wishlist/remove/", {
       data: product,
-      headers:{
+      headers: {
         Authorization: `Bearer ${token}`,
       }
     })
     console.log("Product removed from wishlist successfully:", response.data);
     return response.data;
-  }catch (error){
-    console.error("Error deleting the product from wishlist:",error);
+  } catch (error) {
+    console.error("Error deleting the product from wishlist:", error);
     throw error.response?.data || error;
   }
 }
@@ -566,14 +567,14 @@ export const placeOrder = async (orderData, token) => {
 };
 
 export const fetchpaymentmethod = async (token) => {
-  try{
-    const response = await api.get("payment-methods/",{
+  try {
+    const response = await api.get("payment-methods/", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
     return response.data;
-  } catch(error){
+  } catch (error) {
     console.error("Error fetching payment methods:", error);
     throw error.response?.data || { error: "Failed to fetch payment methods" };
   }

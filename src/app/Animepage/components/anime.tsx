@@ -16,7 +16,7 @@ type ProductCard = {
 type Subcategory = {
   sub_catagory_thumbnail: string;
   name: string;
-  navigation_link : string;
+  navigation_link: string;
 };
 
 const AnimeCategories = () => {

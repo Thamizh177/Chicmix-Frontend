@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect,useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { CiSquarePlus } from "react-icons/ci";
 import { FaPen } from "react-icons/fa";
 import {
@@ -36,17 +36,17 @@ interface AddressType {
 }
 
 export default function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
-const [formData, setFormData] = useState<{
-  first_name: string;
-  surname: string;
-  email: string;
-  gender: string | null;
-}>({
-  first_name: "",
-  surname: "",
-  email: "",
-  gender: null,
-});
+  const [formData, setFormData] = useState<{
+    first_name: string;
+    surname: string;
+    email: string;
+    gender: string | null;
+  }>({
+    first_name: "",
+    surname: "",
+    email: "",
+    gender: null,
+  });
 
 
   const [addressFormData, setAddressFormData] = useState({
@@ -80,10 +80,10 @@ const [formData, setFormData] = useState<{
 
   const token = Cookies.get("accessToken");
 
-    if (!token) {
-      alert("Session expired. Please log in again.");
-      return;
-    }
+  if (!token) {
+    alert("Session expired. Please log in again.");
+    return;
+  }
 
 
   useEffect(() => {
@@ -155,122 +155,122 @@ const [formData, setFormData] = useState<{
     setAddressFormData({ ...addressFormData, [e.target.name]: e.target.value });
   };
 
-const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-  const file = e.target.files?.[0];
-  if (!file) return;
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
 
-  setProfileImage(file); // optional for preview
+    setProfileImage(file); // optional for preview
 
-  const imageUrl = await uploadProfileImage(file,token);
+    const imageUrl = await uploadProfileImage(file, token);
 
-  if (imageUrl) {
-    await updateUserDetails({ user_profile_image: imageUrl },token);
-    alert("Profile image updated!");
-  } else {
-    alert("Failed to upload image.");
-  }
-};
-
-
-
-const hasAddressData = Object.values(addressFormData).some((val) => val !== "");
+    if (imageUrl) {
+      await updateUserDetails({ user_profile_image: imageUrl }, token);
+      alert("Profile image updated!");
+    } else {
+      alert("Failed to upload image.");
+    }
+  };
 
 
 
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  if (!token || !userId) {
-    setErrorMessage("Session expired. Please log in again.");
-    return;
-  }
+  const hasAddressData = Object.values(addressFormData).some((val) => val !== "");
 
-  setSuccessMessage(null);
-  setErrorMessage(null);
-  setLoading(true);
-  let updated = false;
 
-  try {
-    const userForm = new FormData();
-    if (formData.first_name) userForm.append("user_first_name", formData.first_name);
-    if (formData.surname) userForm.append("user_last_name", formData.surname);
-    if (formData.email) userForm.append("email", formData.email);
-    if (formData.gender !== null) userForm.append("gender_id", formData.gender);
-    if (profileImage) {
-    const imageUrl = await uploadProfileImage(profileImage,token);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!token || !userId) {
+      setErrorMessage("Session expired. Please log in again.");
+      return;
+    }
+
+    setSuccessMessage(null);
+    setErrorMessage(null);
+    setLoading(true);
+    let updated = false;
+
+    try {
+      const userForm = new FormData();
+      if (formData.first_name) userForm.append("user_first_name", formData.first_name);
+      if (formData.surname) userForm.append("user_last_name", formData.surname);
+      if (formData.email) userForm.append("email", formData.email);
+      if (formData.gender !== null) userForm.append("gender_id", formData.gender);
       if (profileImage) {
         const imageUrl = await uploadProfileImage(profileImage, token);
-        if (imageUrl) {
-          userForm.append("user_profile_image", imageUrl); // ✅ correct field
-        } else {
-          setErrorMessage("Image upload failed. Please try again.");
-          setLoading(false);
-          return;
+        if (profileImage) {
+          const imageUrl = await uploadProfileImage(profileImage, token);
+          if (imageUrl) {
+            userForm.append("user_profile_image", imageUrl); // ✅ correct field
+          } else {
+            setErrorMessage("Image upload failed. Please try again.");
+            setLoading(false);
+            return;
+          }
         }
       }
-  }
 
-    if (Array.from(userForm.entries()).length > 0) {
-      await updateUserDetails(userForm, token);
-      updated = true;
-    }
+      if (Array.from(userForm.entries()).length > 0) {
+        await updateUserDetails(userForm, token);
+        updated = true;
+      }
 
-    const requiredFields = ["address_line1", "zipcode", "city", "country", "state_region", "Addresstype"];
-    const missingFields = requiredFields.filter(
-      (field) => !addressFormData[field as keyof typeof addressFormData]
-    );
-
-    if (hasAddressData && missingFields.length === 0) {
-      await createAddress(
-        {
-          address_line_1: addressFormData.address_line1,
-          address_line_2: addressFormData.address_line2,
-          state: addressFormData.state_region,
-          city: addressFormData.city,
-          country: addressFormData.country,
-          zipcode: addressFormData.zipcode,
-          address_type: addressFormData.Addresstype,
-          area: addressFormData.area,
-        },
-        token
+      const requiredFields = ["address_line1", "zipcode", "city", "country", "state_region", "Addresstype"];
+      const missingFields = requiredFields.filter(
+        (field) => !addressFormData[field as keyof typeof addressFormData]
       );
-      updated = true;
-    } else if (hasAddressData) {
-      setErrorMessage(`Address not added. Missing fields: ${missingFields.join(", ")}`);
-    }
 
-    if (updated) {
-      setSuccessMessage("Profile updated successfully!");
-    }
+      if (hasAddressData && missingFields.length === 0) {
+        await createAddress(
+          {
+            address_line_1: addressFormData.address_line1,
+            address_line_2: addressFormData.address_line2,
+            state: addressFormData.state_region,
+            city: addressFormData.city,
+            country: addressFormData.country,
+            zipcode: addressFormData.zipcode,
+            address_type: addressFormData.Addresstype,
+            area: addressFormData.area,
+          },
+          token
+        );
+        updated = true;
+      } else if (hasAddressData) {
+        setErrorMessage(`Address not added. Missing fields: ${missingFields.join(", ")}`);
+      }
 
-    // Reset fields only if update happened
-    if (updated) {
-      setEditMode(false);
-      setShowAddressForm(false);
-      setAddressFormData({
-        address_line1: "",
-        address_line2: "",
-        zipcode: "",
-        city: "",
-        state: "",
-        area: "",
-        country: "",
-        state_region: "",
-        Addresstype: "",
-      });
-      const updatedAddresses = await fetchAddresses(token);
-      setSavedAddresses(updatedAddresses);
+      if (updated) {
+        setSuccessMessage("Profile updated successfully!");
+      }
+
+      // Reset fields only if update happened
+      if (updated) {
+        setEditMode(false);
+        setShowAddressForm(false);
+        setAddressFormData({
+          address_line1: "",
+          address_line2: "",
+          zipcode: "",
+          city: "",
+          state: "",
+          area: "",
+          country: "",
+          state_region: "",
+          Addresstype: "",
+        });
+        const updatedAddresses = await fetchAddresses(token);
+        setSavedAddresses(updatedAddresses);
+      }
+    } catch (error: any) {
+      const message = error?.response?.data?.error || error?.message || "An unexpected error occurred.";
+      setErrorMessage(message);
+    } finally {
+      setLoading(false);
+      setTimeout(() => {
+        setSuccessMessage(null);
+        setErrorMessage(null);
+      }, 4000);
     }
-  } catch (error: any) {
-    const message = error?.response?.data?.error || error?.message || "An unexpected error occurred.";
-    setErrorMessage(message);
-  } finally {
-    setLoading(false);
-    setTimeout(() => {
-      setSuccessMessage(null);
-      setErrorMessage(null);
-    }, 4000);
-  }
-};
+  };
 
 
 
@@ -341,24 +341,24 @@ const handleSubmit = async (e: React.FormEvent) => {
               <input type="text" name="surname" placeholder="Last name" value={formData.surname} onChange={handleChange} className="border border-gray-300 p-2 rounded w-full" />
               <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} className="border border-gray-300 p-2 rounded w-full sm:col-span-2" />
               <div className="mb-4">
-                  <select
-                    name="gender"
-                    value={formData.gender ?? ""}
-                    onChange={e =>
-                      setFormData({
-                        ...formData,
-                        gender: e.target.value === "" ? null : e.target.value,
-                      })
-                    }
-                    className="border border-gray-300 p-2 rounded w-full"
-                  >
-                    <option value="">Select Gender</option>
-                    {genderOptions.map((g) => (
-                      <option key={g.id} value={g.id.toString()}>
-                        {g.gender_name}
-                      </option>
-                    ))}
-                  </select>
+                <select
+                  name="gender"
+                  value={formData.gender ?? ""}
+                  onChange={e =>
+                    setFormData({
+                      ...formData,
+                      gender: e.target.value === "" ? null : e.target.value,
+                    })
+                  }
+                  className="border border-gray-300 p-2 rounded w-full"
+                >
+                  <option value="">Select Gender</option>
+                  {genderOptions.map((g) => (
+                    <option key={g.id} value={g.id.toString()}>
+                      {g.gender_name}
+                    </option>
+                  ))}
+                </select>
 
               </div>
             </div>
@@ -432,7 +432,7 @@ const handleSubmit = async (e: React.FormEvent) => {
 
         <button onClick={onClose} className="absolute top-2 right-4 text-gray-600 hover:text-red-500 text-xl">&times;</button>
       </div>
-      
+
     </div>
   );
 }
